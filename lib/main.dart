@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import './main/home.dart';
 import './main/mine.dart';
@@ -52,15 +53,23 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
 
   static const List<Widget> _widgetOptions = <Widget>[
-    homePage(title: '首页'),
-    wxPage(title: '公众号'),
-    projectPage(title: '项目'),
-    nativePage(title: '交互'),
-    minePage(title: '我的')
+    HomePage(title: '首页'),
+    WxPage(title: '公众号'),
+    ProjectPage(title: '项目'),
+    NativePage(title: '交互'),
+    MinePage(title: '我的')
   ];
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(
+        BoxConstraints(
+            maxWidth: MediaQuery.of(context).size.width,
+            maxHeight: MediaQuery.of(context).size.height),
+        designSize: const Size(720, 1280),
+        minTextAdapt: true,
+        orientation: Orientation.portrait);
+
     if (kDebugMode) {
       print(widget);
     }

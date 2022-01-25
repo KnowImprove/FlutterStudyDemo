@@ -2,16 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 //与原生交互测试相关页面
-class nativePage extends StatefulWidget {
-  const nativePage({Key? key, required this.title}) : super(key: key);
+class NativePage extends StatefulWidget {
+  const NativePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _nativePageState createState() => _nativePageState();
+  _NativePageState createState() => _NativePageState();
 }
 
-class _nativePageState extends State<nativePage> {
+class _NativePageState extends State<NativePage> {
   @override
   Widget build(BuildContext context) {
     return Container(
