@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:math';
+import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,7 @@ import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 
 import '../common/api.dart';
 import '../http/httpUtil.dart';
+import '../model/article_entity.dart';
 import '../model/banner_entity.dart';
 import '../page/webview_brower.dart';
 
@@ -21,6 +24,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int _page = 0;
+
   @override
   void initState() {
     super.initState();
@@ -28,6 +33,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   List<BannerData> bannerData = [];
+  List<ArticleDataData> articleDatas = [];
 
   void getHttp() async {
     try {
@@ -37,14 +43,15 @@ class _HomePageState extends State<HomePage> {
       var bannerEntity = BannerEntity.fromJson(bannerMap);
 
       //article
-      // var articleResponse =
-      //     await HttpUtil().get(Api.ARTICLE_LIST + "$_page/json");
-      // Map articleMap = json.decode(articleResponse.toString());
-      // var articleEntity = ArticleEntity.fromJson(articleMap);
+      var articleResponse =
+          await HttpUtil().get(Api.ARTICLE_LIST + "$_page/json");
+      Map<String, dynamic> articleMap = json.decode(articleResponse.toString());
+      var articleEntity = ArticleEntity.fromJson(articleMap);
+      print(articleEntity);
 
       setState(() {
         bannerData = bannerEntity.data!;
-        // articleDatas = articleEntity.data.datas;
+        articleDatas = articleEntity.data!.datas;
       });
 
       // _swiperController.startAutoplay();
@@ -53,34 +60,202 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  void getBannerData() async {
-    // try {
-    //   var response = await Dio().get('https://www.wanandroid.com/banner/json');
-    //   print(response);
-    //   var bannerModel =
-    //       BannerModelEntity.fromJson(json.decode(response.toString()));
-    //   setState(() {
-    //     bannerData = bannerModel.data!;
-    //   });
-    // } catch (e) {
-    //   if (kDebugMode) {
-    //     print(e);
-    //   }
-    // }
+  Future getMoreData() async {
+    var response = await HttpUtil().get(Api.ARTICLE_LIST + "$_page/json");
+    Map<String, dynamic> map = json.decode(response.toString());
+    var articleEntity = ArticleEntity.fromJson(map);
+    setState(() {
+      articleDatas.addAll(articleEntity.data!.datas);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     if (kDebugMode) {
       print("---------build-------");
+      getRandomColor();
     }
+
     return Scaffold(
       body: Container(
-        child: Row(
-          children: [bannerItem()],
+        child: Column(
+          children: [
+            Expanded(
+              // margin: EdgeInsets.fromLTRB(0, 300.h, 0, 0),
+              // width: MediaQuery.of(context).size.width,
+              // height: MediaQuery.of(context).size.height - 300.h,
+              // color: Colors.lightGreenAccent,
+              child: ListView.builder(
+                  itemCount: articleDatas.length,
+                  itemBuilder: (context, index) {
+                    if (index == 0) {
+                      return bannerItem();
+                    }
+                    return buildListItem(articleDatas[index - 1]);
+                  }),
+            )
+          ],
         ),
       ),
     );
+  }
+
+  /*
+  * child: ListView(
+                scrollDirection: Axis.vertical,
+                children: <Widget>[
+                  buildListItem(),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 800.h,
+                    color: Colors.amberAccent,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 800.h,
+                    color: Colors.blue,
+                  ),
+                ],
+              ),
+  * */
+
+  void clickArticle(ArticleDataData article) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            Browser(title: article.title!, url: article.link!),
+      ),
+    );
+  }
+
+  Widget buildListItem(ArticleDataData article) {
+    return InkWell(
+      onTap: () {
+        clickArticle(article);
+      },
+      child: SizedBox(
+        height: 180.h,
+        child: Card(
+          child: Row(
+            children: [
+              Expanded(
+                flex: 1,
+                child: Container(
+                  padding: EdgeInsets.all(15.w),
+                  // color: Colors.deepPurpleAccent,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            article.title!,
+                            textAlign: TextAlign.start,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.star_border,
+                            size: 25,
+                            color: Colors.black12,
+                          ),
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                            child: const Icon(
+                              Icons.access_time,
+                              size: 20,
+                              color: Colors.black12,
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                            child: Text(
+                              article.niceDate!,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.normal,
+                                color: Colors.grey,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                            child: Text(
+                              checkAuthorName(article),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.normal,
+                                color: Colors.grey,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                width: 140.w,
+                height: 140.h,
+                alignment: Alignment.center,
+                // padding: EdgeInsets.all(20.h),
+                child: CircleAvatar(
+                  radius: 60.w,
+                  backgroundColor: getRandomColor(),
+                  child: Text(
+                    article.superChapterName!,
+                    style: const TextStyle(
+                        fontSize: 11,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              )
+              // Image(image: NetworkImage)
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  String checkAuthorName(ArticleDataData article) {
+    if (article.author == null || article.author!.isEmpty) {
+      if (article.shareUser == null || article.shareUser!.isEmpty) {
+        return article.chapterName!;
+      } else {
+        return article.shareUser!;
+      }
+    }
+    return article.author!;
+  }
+
+  Color? getRandomColor() {
+    var rng = Random(); //随机数生成类
+    var randomValue = rng.nextInt(4); //0-3
+    switch (randomValue) {
+      case 0:
+        return Colors.purpleAccent;
+      case 1:
+        return Colors.blueAccent;
+      case 2:
+        return Colors.deepPurpleAccent;
+      case 3:
+        return Colors.lightBlue;
+    }
+    return Colors.deepOrangeAccent;
   }
 
   Widget bannerItem() {
@@ -126,6 +301,7 @@ class _HomePageState extends State<HomePage> {
 
   void clickBanner(int index) {
     if (bannerData.isNotEmpty) {
+      // Fluttertoast.showToast(msg: '$index');
       print("---------click index : ${bannerData[index].url}");
       Navigator.push(
         context,
