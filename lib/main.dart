@@ -82,10 +82,12 @@ class _MyHomePageState extends State<MyHomePage> {
         child: _widgetOptions.elementAt(_selectIndex),
       ),
       bottomNavigationBar: BottomAppBar(
-        color: Colors.lightBlue,
+        color: Colors.white,
         shape: const CircularNotchedRectangle(),
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
+          elevation: 0,
+          backgroundColor: Colors.white,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.home),

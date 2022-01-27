@@ -348,6 +348,5 @@ class _HomePageState extends State<HomePage> {
         ),
       );
     }
-    // Fluttertoast.showToast(msg: '$index');
   }
 }
