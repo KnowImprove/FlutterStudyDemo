@@ -1,9 +1,9 @@
 import 'dart:convert';
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 
@@ -73,6 +73,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     if (kDebugMode) {
       print("---------build-------");
+      getRandomColor();
     }
 
     return Scaffold(
@@ -80,52 +81,19 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             Expanded(
-                // margin: EdgeInsets.fromLTRB(0, 300.h, 0, 0),
-                // width: MediaQuery.of(context).size.width,
-                // height: MediaQuery.of(context).size.height - 300.h,
-                // color: Colors.lightGreenAccent,
-                child: EasyRefresh(
-              header: ClassicalHeader(
-                refreshText: "下拉刷新",
-                refreshReadyText: "松开后开始刷新",
-                refreshingText: "正在刷新...",
-                refreshedText: "刷新完成",
-                bgColor: Colors.transparent,
-                textColor: Colors.black87,
-                infoText: '更新于 %T',
-              ),
-              footer: ClassicalFooter(
-                  loadText: "上拉加载更多",
-                  loadReadyText: "松开后开始加载",
-                  loadingText: "正在加载...",
-                  loadedText: "加载完成",
-                  noMoreText: "没有更多内容了",
-                  bgColor: Colors.transparent,
-                  textColor: Colors.black87,
-                  infoText: '更新于 %T'),
+              // margin: EdgeInsets.fromLTRB(0, 300.h, 0, 0),
+              // width: MediaQuery.of(context).size.width,
+              // height: MediaQuery.of(context).size.height - 300.h,
+              // color: Colors.lightGreenAccent,
               child: ListView.builder(
                   itemCount: articleDatas.length,
                   itemBuilder: (context, index) {
                     if (index == 0) {
                       return bannerItem();
                     }
-                    return buildListItem(index, articleDatas[index - 1]);
+                    return buildListItem(articleDatas[index - 1]);
                   }),
-              onRefresh: () async {
-                getHttp();
-                setState(() {
-                  _page = 0;
-                });
-              },
-              onLoad: () async {
-                await Future.delayed(const Duration(seconds: 1), () async {
-                  setState(() {
-                    _page++;
-                  });
-                  getMoreData();
-                });
-              },
-            ))
+            )
           ],
         ),
       ),
@@ -161,7 +129,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget buildListItem(int index, ArticleDataData article) {
+  Widget buildListItem(ArticleDataData article) {
     return InkWell(
       onTap: () {
         clickArticle(article);
@@ -221,18 +189,14 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                           ),
-                          Expanded(
-                            child: Container(
-                              margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                              child: Text(
-                                checkAuthorName(article),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.grey,
-                                  fontSize: 14,
-                                ),
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                            child: Text(
+                              checkAuthorName(article),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.normal,
+                                color: Colors.grey,
+                                fontSize: 14,
                               ),
                             ),
                           ),
@@ -249,7 +213,7 @@ class _HomePageState extends State<HomePage> {
                 // padding: EdgeInsets.all(20.h),
                 child: CircleAvatar(
                   radius: 60.w,
-                  backgroundColor: getRandomColor(index),
+                  backgroundColor: getRandomColor(),
                   child: Text(
                     article.superChapterName!,
                     style: const TextStyle(
@@ -278,10 +242,9 @@ class _HomePageState extends State<HomePage> {
     return article.author!;
   }
 
-  Color? getRandomColor(int index) {
-    // var rng = Random(); //随机数生成类
-    // var randomValue = rng.nextInt(4); //0-3
-    var randomValue = index % 4; //0-3
+  Color? getRandomColor() {
+    var rng = Random(); //随机数生成类
+    var randomValue = rng.nextInt(4); //0-3
     switch (randomValue) {
       case 0:
         return Colors.purpleAccent;
