@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_study_github/page/login_page.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import './main/home.dart';
 import './main/mine.dart';
@@ -75,6 +77,37 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     return Scaffold(
       appBar: AppBar(
+        leading: InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const LoginPage(),
+              ),
+            );
+          },
+          child: const Icon(
+            Icons.person,
+            size: 25,
+            color: Colors.white,
+          ),
+        ),
+        actions: [
+          InkWell(
+            onTap: () {
+              Fluttertoast.showToast(msg: "搜索");
+            },
+            child: Container(
+              // margin: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+              padding: const EdgeInsets.all(10),
+              child: const Icon(
+                Icons.search,
+                size: 25,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
         title: Text(_widgetTitle.elementAt(_selectIndex)),
         centerTitle: true,
       ),
