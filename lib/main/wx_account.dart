@@ -14,8 +14,10 @@ class WxPage extends StatefulWidget {
 class _WxPageState extends State<WxPage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: const Text("你好，我是微信公众号 Page！"),
+    return Center(
+      child: Container(
+        child: const Text("你好，我是微信公众号 Page！"),
+      ),
     );
   }
 }

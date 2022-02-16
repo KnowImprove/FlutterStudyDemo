@@ -2,7 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_study_github/model/userinfo_model.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
+import 'package:sp_util/sp_util.dart';
 
 import '../common/api.dart';
 import '../http/httpUtil.dart';
@@ -287,6 +290,10 @@ class _LoginPageState extends State<LoginPage> {
     Map<String, dynamic> userMap = json.decode(response.toString());
     var userEntity = UserEntity.fromJson(userMap);
     if (userEntity.errorCode == 0) {
+      Provider.of<UserInfo>(context, listen: false).setUserInfo(userEntity);
+
+      SpUtil.putObject("user", userEntity);
+      SpUtil.putBool("login", true);
       Fluttertoast.showToast(msg: visible ? "登录成功~" : "注册成功~");
       //跳转并关闭当前页面
       Navigator.pushAndRemoveUntil(

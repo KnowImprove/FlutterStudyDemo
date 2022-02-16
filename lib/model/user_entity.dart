@@ -11,6 +11,12 @@ class UserEntity {
     errorMsg = json['errorMsg'];
   }
 
+  UserEntity.fromJsonPro(Map<dynamic, dynamic> json) {
+    data = json['data'] != null ? UserData.fromJson(json['data']) : null;
+    errorCode = json['errorCode'];
+    errorMsg = json['errorMsg'];
+  }
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     if (this.data != null) {

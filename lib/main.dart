@@ -3,15 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_study_github/page/login_page.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
+import 'package:sp_util/sp_util.dart';
 
 import './main/home.dart';
 import './main/mine.dart';
 import './main/native_to_flutter.dart';
 import './main/project.dart';
 import './main/wx_account.dart';
+import 'model/user_entity.dart';
+import 'model/userinfo_model.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SpUtil.getInstance();
+
+  runApp(ChangeNotifierProvider(
+    create: (ctx) => UserInfo(null),
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -54,13 +64,26 @@ class _MyHomePageState extends State<MyHomePage> {
     '我的'
   ];
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    HomePage(title: '首页'),
-    WxPage(title: '公众号'),
-    ProjectPage(title: '项目'),
-    NativePage(title: '交互'),
-    MinePage(title: '我的')
-  ];
+  List<Widget> _widgetOptions = [];
+
+  // static const List<Widget> _widgetOptions = <Widget>[
+  //   HomePage(title: '首页'),
+  //   WxPage(title: '公众号'),
+  //   ProjectPage(title: '项目'),
+  //   NativePage(title: '交互'),
+  //   MinePage(title: '我的')
+  // ];
+
+  @override
+  void initState() {
+    super.initState();
+    _widgetOptions
+      ..add(const HomePage(title: '首页'))
+      ..add(const WxPage(title: '公众号'))
+      ..add(const ProjectPage(title: '项目'))
+      ..add(const NativePage(title: '交互'))
+      ..add(const MinePage(title: '我的'));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +95,16 @@ class _MyHomePageState extends State<MyHomePage> {
         minTextAdapt: true,
         orientation: Orientation.portrait);
 
+    // bool? isLogin = SpUtil.getBool("login", defValue: false);
+    UserEntity? userEntityNew =
+        SpUtil.getObj("user", (v) => UserEntity.fromJsonPro(v));
+    bool isLogin = false;
+    if (null == userEntityNew || null == userEntityNew.data) {
+      isLogin = false;
+    } else {
+      isLogin = true;
+    }
+
     if (kDebugMode) {
       print(widget);
     }
@@ -79,18 +112,19 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         leading: InkWell(
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const LoginPage(),
-              ),
-            );
+            bool? isLogin = SpUtil.getBool("login", defValue: false);
+            if (null == isLogin || !isLogin) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const LoginPage(),
+                ),
+              );
+            } else {
+              Fluttertoast.showToast(msg: '已经登录了呢~');
+            }
           },
-          child: const Icon(
-            Icons.person,
-            size: 25,
-            color: Colors.white,
-          ),
+          child: checkLoginIcon(isLogin),
         ),
         actions: [
           InkWell(
@@ -112,7 +146,10 @@ class _MyHomePageState extends State<MyHomePage> {
         centerTitle: true,
       ),
       body: Center(
-        child: _widgetOptions.elementAt(_selectIndex),
+        child: IndexedStack(
+          index: _selectIndex,
+          children: _widgetOptions,
+        ),
       ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
@@ -149,6 +186,26 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+
+  Widget checkLoginIcon(bool isLogin) {
+    if (isLogin) {
+      return Center(
+        child: ClipOval(
+          child: Image.asset(
+            'lib/res/images/pig.jpg',
+            width: 30,
+            height: 30,
+          ),
+        ),
+      );
+    } else {
+      return const Icon(
+        Icons.person,
+        size: 25,
+        color: Colors.white,
+      );
+    }
   }
 
   void onItemTapped(int index) {
