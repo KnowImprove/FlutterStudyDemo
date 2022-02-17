@@ -5,7 +5,7 @@ class UserInfo extends ChangeNotifier {
   UserEntity? _userEntity;
   UserInfo(this._userEntity);
 
-  void setUserInfo(UserEntity userEntity) {
+  void setUserInfo(UserEntity? userEntity) {
     _userEntity = userEntity;
     notifyListeners(); //2
   }

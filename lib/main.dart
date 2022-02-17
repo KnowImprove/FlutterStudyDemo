@@ -11,6 +11,8 @@ import './main/mine.dart';
 import './main/native_to_flutter.dart';
 import './main/project.dart';
 import './main/wx_account.dart';
+import 'common/api.dart';
+import 'http/httpUtil.dart';
 import 'model/user_entity.dart';
 import 'model/userinfo_model.dart';
 
@@ -95,6 +97,9 @@ class _MyHomePageState extends State<MyHomePage> {
         minTextAdapt: true,
         orientation: Orientation.portrait);
 
+    //收到userEntity改变会刷新页面
+    Provider.of<UserInfo>(context).userEntity;
+
     // bool? isLogin = SpUtil.getBool("login", defValue: false);
     UserEntity? userEntityNew =
         SpUtil.getObj("user", (v) => UserEntity.fromJsonPro(v));
@@ -109,42 +114,48 @@ class _MyHomePageState extends State<MyHomePage> {
       print(widget);
     }
     return Scaffold(
-      appBar: AppBar(
-        leading: InkWell(
-          onTap: () {
-            bool? isLogin = SpUtil.getBool("login", defValue: false);
-            if (null == isLogin || !isLogin) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const LoginPage(),
+      appBar: _selectIndex == 4
+          ? null
+          : AppBar(
+              elevation: 0,
+              leading: _selectIndex != 0
+                  ? null
+                  : InkWell(
+                      onTap: () {
+                        bool? isLogin =
+                            SpUtil.getBool("login", defValue: false);
+                        if (null == isLogin || !isLogin) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const LoginPage(),
+                            ),
+                          );
+                        } else {
+                          _alertDialog();
+                        }
+                      },
+                      child: checkLoginIcon(isLogin),
+                    ),
+              actions: [
+                InkWell(
+                  onTap: () {
+                    Fluttertoast.showToast(msg: "搜索");
+                  },
+                  child: Container(
+                    // margin: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                    padding: const EdgeInsets.all(10),
+                    child: const Icon(
+                      Icons.search,
+                      size: 25,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
-              );
-            } else {
-              Fluttertoast.showToast(msg: '已经登录了呢~');
-            }
-          },
-          child: checkLoginIcon(isLogin),
-        ),
-        actions: [
-          InkWell(
-            onTap: () {
-              Fluttertoast.showToast(msg: "搜索");
-            },
-            child: Container(
-              // margin: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-              padding: const EdgeInsets.all(10),
-              child: const Icon(
-                Icons.search,
-                size: 25,
-                color: Colors.white,
-              ),
+              ],
+              title: Text(_widgetTitle.elementAt(_selectIndex)),
+              centerTitle: true,
             ),
-          ),
-        ],
-        title: Text(_widgetTitle.elementAt(_selectIndex)),
-        centerTitle: true,
-      ),
       body: Center(
         child: IndexedStack(
           index: _selectIndex,
@@ -186,6 +197,33 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+
+  _alertDialog() async {
+    var alertDialogs = await showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("提示"),
+            content: const Text("确定要退出登录吗"),
+            actions: <Widget>[
+              TextButton(
+                  child: const Text("取消"),
+                  onPressed: () => Navigator.pop(context, "cancel")),
+              TextButton(
+                  child: const Text("确定"),
+                  onPressed: () {
+                    // //退出
+                    HttpUtil().get(Api.LOGOUT);
+                    SpUtil.clear();
+                    Provider.of<UserInfo>(context, listen: false)
+                        .setUserInfo(null);
+                    Navigator.pop(context, "yes");
+                  }),
+            ],
+          );
+        });
+    return alertDialogs;
   }
 
   Widget checkLoginIcon(bool isLogin) {
