@@ -189,12 +189,14 @@ class _MinePageState extends State<MinePage> {
       color: Colors.blue,
       child: InkWell(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const LoginPage(),
-            ),
-          );
+          if (!isLogin!) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const LoginPage(),
+              ),
+            );
+          }
         },
         child: Center(
           child: Column(

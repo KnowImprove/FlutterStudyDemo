@@ -14,3 +14,18 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+
+## 注意点
+
+### 1.打包
+
+android打正式包的时候，要记得在AndroidManifest.xml中添加网络权限：
+
+```
+<uses-permission android:name="android.permission.INTERNET"/>
+
+//不一定需要
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+```
