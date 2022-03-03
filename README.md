@@ -15,6 +15,19 @@ For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
+## 功能列表
+
+- [x] 1.注册登录
+- [x] 2.首页、公众号、项目模块列表数据展示，支持下拉刷新上拉加载
+- [x] 3.我的模块ui布局
+- [x] 4.全局状态刷新
+- [x] 5.本地存储
+- [x] 6.cookie管理
+- [ ] 7.收藏（已完成部分）
+- [ ] 8.我的积分
+- [ ] 9.我的收藏
+- [ ] 10.与原生交互
+
 
 ## 注意点
 
