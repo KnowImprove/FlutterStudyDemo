@@ -8,7 +8,7 @@ import 'package:flutter_study_github/page/webview_brower.dart';
 
 import '../common/api.dart';
 import '../http/httpUtil.dart';
-import '../model/wx_chat_details_model_entity.dart';
+import '../model/project_model_item_entity.dart';
 
 class FragmentProject extends StatefulWidget {
   int id;
@@ -21,7 +21,7 @@ class FragmentProject extends StatefulWidget {
 
 class _AState extends State<FragmentProject>
     with AutomaticKeepAliveClientMixin {
-  List<WxChatDetailsModelDataDatas>? dataVxDetails = [];
+  List<ProjectModelItemDataDatas>? dataVxDetails = [];
 
   int id;
   bool isLoading = true;
@@ -39,7 +39,7 @@ class _AState extends State<FragmentProject>
       var wxTabInfoResponse = await HttpUtil.getInstance()
           .get("${Api.PROJECT_LIST}$page/json?cid=$id");
       Map<String, dynamic> wxMap = json.decode(wxTabInfoResponse.toString());
-      var wxTabInfoEntity = WxChatDetailsModelEntity.fromJson(wxMap);
+      var wxTabInfoEntity = ProjectModelItemEntity.fromJson(wxMap);
       print(wxTabInfoEntity.toString());
 
       setState(() {
@@ -54,7 +54,7 @@ class _AState extends State<FragmentProject>
     var wxTabInfoResponse = await HttpUtil.getInstance()
         .get("${Api.PROJECT_LIST}$page/json?cid=$id");
     Map<String, dynamic> wxMap = json.decode(wxTabInfoResponse.toString());
-    var wxTabInfoEntity = WxChatDetailsModelEntity.fromJson(wxMap);
+    var wxTabInfoEntity = ProjectModelItemEntity.fromJson(wxMap);
 
     setState(() {
       dataVxDetails!.addAll(wxTabInfoEntity.data!.datas!);
@@ -114,7 +114,7 @@ class _AState extends State<FragmentProject>
     );
   }
 
-  void clickArticle(WxChatDetailsModelDataDatas article) {
+  void clickArticle(ProjectModelItemDataDatas article) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -124,7 +124,7 @@ class _AState extends State<FragmentProject>
     );
   }
 
-  Widget buildListItem(int index, WxChatDetailsModelDataDatas article) {
+  Widget buildListItem(int index, ProjectModelItemDataDatas article) {
     return InkWell(
       onTap: () {
         clickArticle(article);
@@ -248,7 +248,7 @@ class _AState extends State<FragmentProject>
     return Colors.deepOrangeAccent;
   }
 
-  String checkAuthorName(WxChatDetailsModelDataDatas article) {
+  String checkAuthorName(ProjectModelItemDataDatas article) {
     if (article.author == null || article.author!.isEmpty) {
       if (article.shareUser == null || article.shareUser!.isEmpty) {
         return article.chapterName!;
