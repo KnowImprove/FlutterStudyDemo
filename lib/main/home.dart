@@ -5,12 +5,19 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_study_github/http/httpUtil.dart';
+import 'package:flutter_study_github/model/common_entity.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
+import 'package:sp_util/sp_util.dart';
 
 import '../common/api.dart';
-import '../http/httpUtil.dart';
+// import '../http/httpUtil.dart';
 import '../model/article_entity.dart';
 import '../model/banner_entity.dart';
+import '../model/userinfo_model.dart';
+import '../page/login_page.dart';
 import '../page/webview_brower.dart';
 
 //项目首页
@@ -38,13 +45,13 @@ class _HomePageState extends State<HomePage> {
   void getHttp() async {
     try {
       //banner
-      var bannerResponse = await HttpUtil().get(Api.BANNER);
+      var bannerResponse = await HttpUtil.getInstance().get(Api.BANNER);
       Map<String, dynamic> bannerMap = json.decode(bannerResponse.toString());
       var bannerEntity = BannerEntity.fromJson(bannerMap);
 
       //article
       var articleResponse =
-          await HttpUtil().get(Api.ARTICLE_LIST + "$_page/json");
+          await HttpUtil.getInstance().get(Api.ARTICLE_LIST + "$_page/json");
       Map<String, dynamic> articleMap = json.decode(articleResponse.toString());
       var articleEntity = ArticleEntity.fromJson(articleMap);
       print(articleEntity);
@@ -61,7 +68,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future getMoreData() async {
-    var response = await HttpUtil().get(Api.ARTICLE_LIST + "$_page/json");
+    var response =
+        await HttpUtil.getInstance().get(Api.ARTICLE_LIST + "$_page/json");
     Map<String, dynamic> map = json.decode(response.toString());
     var articleEntity = ArticleEntity.fromJson(map);
     setState(() {
@@ -161,7 +169,49 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Future collect(int index, int articleId) async {
+    var response =
+        await HttpUtil.getInstance().post(Api.COLLECT + "$articleId/json");
+    Map<String, dynamic> map = json.decode(response.toString());
+    var commonEntity = CommonEntity.fromJson(map);
+    if (commonEntity.errorCode == -1001) {
+      // //退出
+      HttpUtil.getInstance().get(Api.LOGOUT);
+      SpUtil.clear();
+      Provider.of<UserInfo>(context, listen: false).setUserInfo(null);
+      Fluttertoast.showToast(msg: '登录失效，请重新登录~');
+    } else {
+      articleDatas[index].collect = true;
+      setState(() {
+        articleDatas = articleDatas;
+      });
+      Fluttertoast.showToast(msg: '收藏成功~');
+    }
+  }
+
+  Future cancelCollect(int index, int articleId) async {
+    var response = await HttpUtil.getInstance()
+        .post(Api.UN_COLLECT_ORIGIN_ID + "$articleId/json");
+    Map<String, dynamic> map = json.decode(response.toString());
+    var commonEntity = CommonEntity.fromJson(map);
+    if (commonEntity.errorCode == -1001) {
+      // //退出
+      HttpUtil.getInstance().get(Api.LOGOUT);
+      SpUtil.clear();
+      Provider.of<UserInfo>(context, listen: false).setUserInfo(null);
+      Fluttertoast.showToast(msg: '登录失效，请重新登录~');
+    } else {
+      articleDatas[index].collect = false;
+      setState(() {
+        articleDatas = articleDatas;
+      });
+      Fluttertoast.showToast(msg: '取消收藏~');
+    }
+  }
+
   Widget buildListItem(int index, ArticleDataData article) {
+    bool? isLogin = SpUtil.getBool("login", defValue: false);
+
     return InkWell(
       onTap: () {
         clickArticle(article);
@@ -197,10 +247,26 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Row(
                         children: [
-                          const Icon(
-                            Icons.star_border,
-                            size: 25,
-                            color: Colors.black12,
+                          InkWell(
+                            child: getIconByArticle(article),
+                            onTap: () {
+                              print("------$index------");
+                              if (!isLogin!) {
+                                Fluttertoast.showToast(msg: "请先登录！");
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const LoginPage(),
+                                  ),
+                                );
+                              } else {
+                                if (article.collect!) {
+                                  cancelCollect(index - 1, article.id!);
+                                } else {
+                                  collect(index - 1, article.id!);
+                                }
+                              }
+                            },
                           ),
                           Container(
                             margin: const EdgeInsets.fromLTRB(5, 0, 0, 0),
@@ -249,7 +315,7 @@ class _HomePageState extends State<HomePage> {
                 // padding: EdgeInsets.all(20.h),
                 child: CircleAvatar(
                   radius: 60.w,
-                  backgroundColor: getRandomColor(index),
+                  backgroundColor: getRandomColor(index - 1),
                   child: Text(
                     article.superChapterName!,
                     textAlign: TextAlign.center,
@@ -265,6 +331,22 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget getIconByArticle(ArticleDataData article) {
+    if (article.collect!) {
+      return const Icon(
+        Icons.star,
+        size: 25,
+        color: Colors.yellow,
+      );
+    }
+
+    return const Icon(
+      Icons.star_border,
+      size: 25,
+      color: Colors.black12,
     );
   }
 

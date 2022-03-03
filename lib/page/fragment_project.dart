@@ -36,8 +36,8 @@ class _AState extends State<FragmentProject>
 
   void getHttp() async {
     try {
-      var wxTabInfoResponse =
-          await HttpUtil().get("${Api.PROJECT_LIST}$page/json?cid=$id");
+      var wxTabInfoResponse = await HttpUtil.getInstance()
+          .get("${Api.PROJECT_LIST}$page/json?cid=$id");
       Map<String, dynamic> wxMap = json.decode(wxTabInfoResponse.toString());
       var wxTabInfoEntity = WxChatDetailsModelEntity.fromJson(wxMap);
       print(wxTabInfoEntity.toString());
@@ -51,8 +51,8 @@ class _AState extends State<FragmentProject>
   }
 
   Future getMoreData() async {
-    var wxTabInfoResponse =
-        await HttpUtil().get("${Api.PROJECT_LIST}$page/json?cid=$id");
+    var wxTabInfoResponse = await HttpUtil.getInstance()
+        .get("${Api.PROJECT_LIST}$page/json?cid=$id");
     Map<String, dynamic> wxMap = json.decode(wxTabInfoResponse.toString());
     var wxTabInfoEntity = WxChatDetailsModelEntity.fromJson(wxMap);
 

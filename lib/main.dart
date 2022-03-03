@@ -216,7 +216,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: const Text("确定"),
                   onPressed: () {
                     // //退出
-                    HttpUtil().get(Api.LOGOUT);
+                    HttpUtil.getInstance().get(Api.LOGOUT);
                     SpUtil.clear();
                     Provider.of<UserInfo>(context, listen: false)
                         .setUserInfo(null);

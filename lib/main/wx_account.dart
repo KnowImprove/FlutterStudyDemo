@@ -35,7 +35,7 @@ class _WxPageState extends State<WxPage> with SingleTickerProviderStateMixin {
   void getWxTabHttp() async {
     print("start--------------request");
     try {
-      var wxTabResponse = await HttpUtil().get(Api.WX_ARTICLE);
+      var wxTabResponse = await HttpUtil.getInstance().get(Api.WX_ARTICLE);
       Map<String, dynamic> wxMap = json.decode(wxTabResponse.toString());
       var wxTabEntity = WxTabTitleModelEntity.fromJson(wxMap);
       print(wxTabEntity.toString());
@@ -88,7 +88,7 @@ class _WxPageState extends State<WxPage> with SingleTickerProviderStateMixin {
   void getWxTabInfoHttp(WxTabTitleModelData titleModelData, int page) async {
     print("start-------info-------request");
     try {
-      var wxTabInfoResponse = await HttpUtil()
+      var wxTabInfoResponse = await HttpUtil.getInstance()
           .get("${Api.WX_ARTICLE_INFO}${titleModelData.id}/$page/json");
       Map<String, dynamic> wxMap = json.decode(wxTabInfoResponse.toString());
       var wxTabInfoEntity = WxChatDetailsModelEntity.fromJson(wxMap);

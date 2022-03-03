@@ -35,8 +35,8 @@ class _AState extends State<FragmentWx> with AutomaticKeepAliveClientMixin {
 
   void getHttp() async {
     try {
-      var wxTabInfoResponse =
-          await HttpUtil().get("${Api.WX_ARTICLE_INFO}$id/$page/json");
+      var wxTabInfoResponse = await HttpUtil.getInstance()
+          .get("${Api.WX_ARTICLE_INFO}$id/$page/json");
       Map<String, dynamic> wxMap = json.decode(wxTabInfoResponse.toString());
       var wxTabInfoEntity = WxChatDetailsModelEntity.fromJson(wxMap);
       print(wxTabInfoEntity.toString());
@@ -50,8 +50,8 @@ class _AState extends State<FragmentWx> with AutomaticKeepAliveClientMixin {
   }
 
   Future getMoreData() async {
-    var wxTabInfoResponse =
-        await HttpUtil().get("${Api.WX_ARTICLE_INFO}$id/$page/json");
+    var wxTabInfoResponse = await HttpUtil.getInstance()
+        .get("${Api.WX_ARTICLE_INFO}$id/$page/json");
     Map<String, dynamic> wxMap = json.decode(wxTabInfoResponse.toString());
     var wxTabInfoEntity = WxChatDetailsModelEntity.fromJson(wxMap);
 

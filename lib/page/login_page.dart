@@ -285,8 +285,8 @@ class _LoginPageState extends State<LoginPage> {
       };
     }
 
-    var response =
-        await HttpUtil().post(visible ? Api.LOGIN : Api.REGISTER, data: data);
+    var response = await HttpUtil.getInstance()
+        .post(visible ? Api.LOGIN : Api.REGISTER, data: data);
     Map<String, dynamic> userMap = json.decode(response.toString());
     var userEntity = UserEntity.fromJson(userMap);
     if (userEntity.errorCode == 0) {

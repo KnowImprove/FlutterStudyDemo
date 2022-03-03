@@ -5,15 +5,15 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_study_github/common/api.dart';
 
 class HttpUtil {
-  static late HttpUtil instance;
+  static HttpUtil? instance = null;
   late Dio dio;
   late BaseOptions options;
 
   CancelToken cancelToken = CancelToken();
 
   static HttpUtil getInstance() {
-    instance = HttpUtil();
-    return instance;
+    if (null == instance) instance = HttpUtil();
+    return instance!;
   }
 
   /*

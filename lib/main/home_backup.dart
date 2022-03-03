@@ -38,13 +38,13 @@ class _HomePageState extends State<HomePage> {
   void getHttp() async {
     try {
       //banner
-      var bannerResponse = await HttpUtil().get(Api.BANNER);
+      var bannerResponse = await HttpUtil.getInstance().get(Api.BANNER);
       Map<String, dynamic> bannerMap = json.decode(bannerResponse.toString());
       var bannerEntity = BannerEntity.fromJson(bannerMap);
 
       //article
       var articleResponse =
-          await HttpUtil().get(Api.ARTICLE_LIST + "$_page/json");
+          await HttpUtil.getInstance().get(Api.ARTICLE_LIST + "$_page/json");
       Map<String, dynamic> articleMap = json.decode(articleResponse.toString());
       var articleEntity = ArticleEntity.fromJson(articleMap);
       print(articleEntity);
@@ -61,7 +61,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future getMoreData() async {
-    var response = await HttpUtil().get(Api.ARTICLE_LIST + "$_page/json");
+    var response =
+        await HttpUtil.getInstance().get(Api.ARTICLE_LIST + "$_page/json");
     Map<String, dynamic> map = json.decode(response.toString());
     var articleEntity = ArticleEntity.fromJson(map);
     setState(() {

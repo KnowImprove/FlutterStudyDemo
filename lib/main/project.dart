@@ -33,7 +33,7 @@ class _ProjectPageState extends State<ProjectPage>
   void getProjectTabHttp() async {
     print("start--------------request");
     try {
-      var wxTabResponse = await HttpUtil().get(Api.PROJECT);
+      var wxTabResponse = await HttpUtil.getInstance().get(Api.PROJECT);
       Map<String, dynamic> wxMap = json.decode(wxTabResponse.toString());
       var wxTabEntity = ProjectTitleTabModelEntity.fromJson(wxMap);
       print(wxTabEntity.toString());
