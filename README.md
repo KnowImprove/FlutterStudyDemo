@@ -43,3 +43,8 @@ android打正式包的时候，要记得在AndroidManifest.xml中添加网络权
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 ```
+
+### 2.cookie
+
+使用cookiejar自动管理cookie，请确保httpUtils单例，否则不生效
+
