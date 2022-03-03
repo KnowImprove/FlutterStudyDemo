@@ -226,6 +226,13 @@
             </list>
           </value>
         </entry>
+        <entry key="flutter_easyloading">
+          <value>
+            <list>
+              <option value="$PROJECT_DIR$/../../../study/flutter/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_easyloading-3.0.3/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="flutter_easyrefresh">
           <value>
             <list>
@@ -251,6 +258,13 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../../study/flutter/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_screenutil-5.0.3/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="flutter_spinkit">
+          <value>
+            <list>
+              <option value="$PROJECT_DIR$/../../../study/flutter/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_spinkit-5.1.0/lib" />
             </list>
           </value>
         </entry>
@@ -722,10 +736,12 @@
       <root url="file://$PROJECT_DIR$/../../../study/flutter/flutter/.pub-cache/hosted/pub.flutter-io.cn/ffi-1.1.2/lib" />
       <root url="file://$PROJECT_DIR$/../../../study/flutter/flutter/.pub-cache/hosted/pub.flutter-io.cn/file-6.1.2/lib" />
       <root url="file://$PROJECT_DIR$/../../../study/flutter/flutter/.pub-cache/hosted/pub.flutter-io.cn/fixnum-1.0.0/lib" />
+      <root url="file://$PROJECT_DIR$/../../../study/flutter/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_easyloading-3.0.3/lib" />
       <root url="file://$PROJECT_DIR$/../../../study/flutter/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_easyrefresh-2.2.1/lib" />
       <root url="file://$PROJECT_DIR$/../../../study/flutter/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_inappwebview-5.3.2/lib" />
       <root url="file://$PROJECT_DIR$/../../../study/flutter/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_lints-1.0.4/lib" />
       <root url="file://$PROJECT_DIR$/../../../study/flutter/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_screenutil-5.0.3/lib" />
+      <root url="file://$PROJECT_DIR$/../../../study/flutter/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_spinkit-5.1.0/lib" />
       <root url="file://$PROJECT_DIR$/../../../study/flutter/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_swiper_null_safety-1.0.2/lib" />
       <root url="file://$PROJECT_DIR$/../../../study/flutter/flutter/.pub-cache/hosted/pub.flutter-io.cn/fluttertoast-8.0.8/lib" />
       <root url="file://$PROJECT_DIR$/../../../study/flutter/flutter/.pub-cache/hosted/pub.flutter-io.cn/frontend_server_client-2.1.2/lib" />

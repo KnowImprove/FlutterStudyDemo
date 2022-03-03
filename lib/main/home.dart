@@ -252,6 +252,7 @@ class _HomePageState extends State<HomePage> {
                   backgroundColor: getRandomColor(index),
                   child: Text(
                     article.superChapterName!,
+                    textAlign: TextAlign.center,
                     style: const TextStyle(
                         fontSize: 11,
                         color: Colors.white,

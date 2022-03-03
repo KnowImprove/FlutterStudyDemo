@@ -1,6 +1,4 @@
-
 class Api {
-
   static const String BASE_URL = "https://www.wanandroid.com/";
 
   static const String TEST_URL = "https://api.hencoder.com/author";
@@ -32,6 +30,12 @@ class Api {
   //退出登录
   static const String LOGOUT = "user/logout/json";
 
+  //微信公众号
+  static const String WX_ARTICLE = "wxarticle/chapters/json";
+
+  //微信公众号,单个公众号历史文章查询 //wxarticle/list/408/1/json
+  static const String WX_ARTICLE_INFO = "wxarticle/list/";
+
   //搜索热词
   static const String HOT_KEY = "hotkey/json";
 
@@ -49,5 +53,4 @@ class Api {
 
   //取消收藏-收藏页面
   static const String UN_COLLECT = "lg/uncollect/";
-
 }

@@ -1,6 +1,7 @@
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_study_github/common/api.dart';
 
 class HttpUtil {
@@ -45,15 +46,20 @@ class HttpUtil {
 
     //添加拦截器
     dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) {
-      print("请求之前");
+      print("请求之前:${options.path}");
+      if (!options.path.contains('banner')) {
+        EasyLoading.show(status: 'loading···');
+      }
       // Do something before request is sent
       return handler.next(options); //continue
     }, onResponse: (response, handler) {
       print("响应之前");
+      EasyLoading.dismiss();
       // Do something with response data
       return handler.next(response); // continue
     }, onError: (e, handler) {
       print("错误之前");
+      EasyLoading.dismiss();
       // Do something with response error
       return handler.next(e); //continue
     }));

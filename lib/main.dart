@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_study_github/page/login_page.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const MyHomePage(title: '首页'),
+      builder: EasyLoading.init(),
     );
   }
 }
