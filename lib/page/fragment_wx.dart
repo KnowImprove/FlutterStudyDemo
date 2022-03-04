@@ -65,50 +65,49 @@ class _AState extends State<FragmentWx> with AutomaticKeepAliveClientMixin {
     super.build(context);
     return Scaffold(
       body: Center(
-        child: Expanded(
-            // margin: EdgeInsets.fromLTRB(0, 300.h, 0, 0),
-            // width: MediaQuery.of(context).size.width,
-            // height: MediaQuery.of(context).size.height - 300.h,
-            // color: Colors.lightGreenAccent,
-            child: EasyRefresh(
-          header: ClassicalHeader(
-            refreshText: "下拉刷新",
-            refreshReadyText: "松开后开始刷新",
-            refreshingText: "正在刷新...",
-            refreshedText: "刷新完成",
-            bgColor: Colors.transparent,
-            textColor: Colors.black87,
-            infoText: '更新于 %T',
-          ),
-          footer: ClassicalFooter(
-              loadText: "上拉加载更多",
-              loadReadyText: "松开后开始加载",
-              loadingText: "正在加载...",
-              loadedText: "加载完成",
-              noMoreText: "没有更多内容了",
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: EasyRefresh(
+            header: ClassicalHeader(
+              refreshText: "下拉刷新",
+              refreshReadyText: "松开后开始刷新",
+              refreshingText: "正在刷新...",
+              refreshedText: "刷新完成",
               bgColor: Colors.transparent,
               textColor: Colors.black87,
-              infoText: '更新于 %T'),
-          child: ListView.builder(
-              itemCount: dataVxDetails!.length,
-              itemBuilder: (context, index) {
-                return buildListItem(index, dataVxDetails![index]);
-              }),
-          onRefresh: () async {
-            getHttp();
-            setState(() {
-              page = 0;
-            });
-          },
-          onLoad: () async {
-            await Future.delayed(const Duration(seconds: 1), () async {
+              infoText: '更新于 %T',
+            ),
+            footer: ClassicalFooter(
+                loadText: "上拉加载更多",
+                loadReadyText: "松开后开始加载",
+                loadingText: "正在加载...",
+                loadedText: "加载完成",
+                noMoreText: "没有更多内容了",
+                bgColor: Colors.transparent,
+                textColor: Colors.black87,
+                infoText: '更新于 %T'),
+            child: ListView.builder(
+                itemCount: dataVxDetails!.length,
+                itemBuilder: (context, index) {
+                  return buildListItem(index, dataVxDetails![index]);
+                }),
+            onRefresh: () async {
               setState(() {
-                page++;
+                page = 1;
+                getHttp();
               });
-              getMoreData();
-            });
-          },
-        )),
+            },
+            onLoad: () async {
+              await Future.delayed(const Duration(seconds: 1), () async {
+                setState(() {
+                  page++;
+                  getMoreData();
+                });
+              });
+            },
+          ),
+        ),
       ),
     );
   }
