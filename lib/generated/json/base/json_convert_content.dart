@@ -6,6 +6,7 @@
 import 'package:flutter_study_github/model/banner_model_entity.dart';
 import 'package:flutter_study_github/model/project_model_item_entity.dart';
 import 'package:flutter_study_github/model/project_title_tab_model_entity.dart';
+import 'package:flutter_study_github/model/seach_hot_key_model_entity.dart';
 import 'package:flutter_study_github/model/wx_chat_details_model_entity.dart';
 import 'package:flutter_study_github/model/wx_tab_title_model_entity.dart';
 
@@ -104,6 +105,12 @@ class JsonConvert {
     if (type == (ProjectTitleTabModelData).toString()) {
       return ProjectTitleTabModelData.fromJson(json) as M;
     }
+    if (type == (SeachHotKeyModelEntity).toString()) {
+      return SeachHotKeyModelEntity.fromJson(json) as M;
+    }
+    if (type == (SeachHotKeyModelData).toString()) {
+      return SeachHotKeyModelData.fromJson(json) as M;
+    }
     if (type == (WxChatDetailsModelEntity).toString()) {
       return WxChatDetailsModelEntity.fromJson(json) as M;
     }
@@ -176,6 +183,18 @@ class JsonConvert {
       return data
           .map<ProjectTitleTabModelData>(
               (Map<String, dynamic> e) => ProjectTitleTabModelData.fromJson(e))
+          .toList() as M;
+    }
+    if (<SeachHotKeyModelEntity>[] is M) {
+      return data
+          .map<SeachHotKeyModelEntity>(
+              (Map<String, dynamic> e) => SeachHotKeyModelEntity.fromJson(e))
+          .toList() as M;
+    }
+    if (<SeachHotKeyModelData>[] is M) {
+      return data
+          .map<SeachHotKeyModelData>(
+              (Map<String, dynamic> e) => SeachHotKeyModelData.fromJson(e))
           .toList() as M;
     }
     if (<WxChatDetailsModelEntity>[] is M) {

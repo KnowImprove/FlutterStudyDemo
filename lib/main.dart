@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_study_github/page/login_page.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_study_github/page/search_page.dart';
 import 'package:provider/provider.dart';
 import 'package:sp_util/sp_util.dart';
 
@@ -142,7 +142,8 @@ class _MyHomePageState extends State<MyHomePage> {
               actions: [
                 InkWell(
                   onTap: () {
-                    Fluttertoast.showToast(msg: "搜索");
+                    // Fluttertoast.showToast(msg: "搜索");
+                    jumpSearch();
                   },
                   child: Container(
                     // margin: const EdgeInsets.fromLTRB(0, 0, 10, 0),
@@ -197,6 +198,15 @@ class _MyHomePageState extends State<MyHomePage> {
           selectedItemColor: Colors.amber[800],
           onTap: onItemTapped,
         ),
+      ),
+    );
+  }
+
+  void jumpSearch() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const Search(),
       ),
     );
   }
