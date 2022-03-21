@@ -40,7 +40,8 @@ class Api {
   static const String HOT_KEY = "hotkey/json";
 
   //搜索
-  static const String QUERY = "article/query/0/json";
+  // static const String QUERY = "article/query/0/json";
+  static const String QUERY = "article/query/";
 
   //收藏文章列表
   static const String COLLECT_LIST = "lg/collect/list/";

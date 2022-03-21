@@ -2,12 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ButtonHotKey extends StatelessWidget {
-  const ButtonHotKey({Key? key, required this.textKeys, required this.color})
+  const ButtonHotKey(
+      {Key? key,
+      required this.textKeys,
+      required this.color,
+      required this.changeSearchKeyCallBack})
       : super(key: key);
 
   final String textKeys;
 
   final Color color;
+
+  final ValueChanged<String> changeSearchKeyCallBack;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +29,7 @@ class ButtonHotKey extends StatelessWidget {
         ),
         onPressed: () {
           print("-------点击：$textKeys");
+          changeSearchKeyCallBack(textKeys);
         },
       ),
     );

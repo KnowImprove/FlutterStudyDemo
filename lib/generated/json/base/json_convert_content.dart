@@ -7,6 +7,7 @@ import 'package:flutter_study_github/model/banner_model_entity.dart';
 import 'package:flutter_study_github/model/project_model_item_entity.dart';
 import 'package:flutter_study_github/model/project_title_tab_model_entity.dart';
 import 'package:flutter_study_github/model/seach_hot_key_model_entity.dart';
+import 'package:flutter_study_github/model/search_key_result_model_entity.dart';
 import 'package:flutter_study_github/model/wx_chat_details_model_entity.dart';
 import 'package:flutter_study_github/model/wx_tab_title_model_entity.dart';
 
@@ -111,6 +112,15 @@ class JsonConvert {
     if (type == (SeachHotKeyModelData).toString()) {
       return SeachHotKeyModelData.fromJson(json) as M;
     }
+    if (type == (SearchKeyResultModelEntity).toString()) {
+      return SearchKeyResultModelEntity.fromJson(json) as M;
+    }
+    if (type == (SearchKeyResultModelData).toString()) {
+      return SearchKeyResultModelData.fromJson(json) as M;
+    }
+    if (type == (SearchKeyResultModelDataDatas).toString()) {
+      return SearchKeyResultModelDataDatas.fromJson(json) as M;
+    }
     if (type == (WxChatDetailsModelEntity).toString()) {
       return WxChatDetailsModelEntity.fromJson(json) as M;
     }
@@ -195,6 +205,24 @@ class JsonConvert {
       return data
           .map<SeachHotKeyModelData>(
               (Map<String, dynamic> e) => SeachHotKeyModelData.fromJson(e))
+          .toList() as M;
+    }
+    if (<SearchKeyResultModelEntity>[] is M) {
+      return data
+          .map<SearchKeyResultModelEntity>((Map<String, dynamic> e) =>
+              SearchKeyResultModelEntity.fromJson(e))
+          .toList() as M;
+    }
+    if (<SearchKeyResultModelData>[] is M) {
+      return data
+          .map<SearchKeyResultModelData>(
+              (Map<String, dynamic> e) => SearchKeyResultModelData.fromJson(e))
+          .toList() as M;
+    }
+    if (<SearchKeyResultModelDataDatas>[] is M) {
+      return data
+          .map<SearchKeyResultModelDataDatas>((Map<String, dynamic> e) =>
+              SearchKeyResultModelDataDatas.fromJson(e))
           .toList() as M;
     }
     if (<WxChatDetailsModelEntity>[] is M) {
