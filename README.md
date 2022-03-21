@@ -24,7 +24,7 @@ samples, guidance on mobile development, and a full API reference.
 - [x] 5.本地存储
 - [x] 6.cookie管理
 - [x] 7.android打包配置
-- [ ] 8.收藏（已完成部分）
+- [x] 8.收藏
 - [ ] 9.我的积分
 - [ ] 10.我的收藏
 - [ ] 11.与原生交互
