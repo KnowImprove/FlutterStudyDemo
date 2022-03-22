@@ -54,4 +54,10 @@ class Api {
 
   //取消收藏-收藏页面
   static const String UN_COLLECT = "lg/uncollect/";
+
+  ///https://wanandroid.com//user/lg/userinfo/json
+  static const String USER_INFO = "user/lg/userinfo/json";
+
+  ///https://www.wanandroid.com//lg/coin/list/1/json
+  static const String USER_COIN = "lg/coin/list/";
 }
