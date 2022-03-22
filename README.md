@@ -26,7 +26,7 @@ samples, guidance on mobile development, and a full API reference.
 - [x] 7.android打包配置
 - [x] 8.收藏
 - [ ] 9.我的积分
-- [ ] 10.我的收藏
+- [x] 10.我的收藏
 - [ ] 11.与原生交互
 
 

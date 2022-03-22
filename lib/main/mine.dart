@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_study_github/model/user_entity.dart';
+import 'package:flutter_study_github/page/my_collect_page.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:sp_util/sp_util.dart';
@@ -48,7 +49,8 @@ class _MinePageState extends State<MinePage> {
             }
           },
           child: Container(
-            padding: const EdgeInsets.fromLTRB(15, 15, 0, 10),
+            margin: const EdgeInsets.only(top: 15),
+            padding: const EdgeInsets.fromLTRB(15, 0, 0, 10),
             child: Row(
               children: const [
                 Icon(
@@ -71,6 +73,13 @@ class _MinePageState extends State<MinePage> {
           onTap: () {
             if (!isLogin!) {
               Fluttertoast.showToast(msg: "请先登录！");
+            } else {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const CollectListPage(),
+                ),
+              );
             }
           },
           child: Container(
