@@ -27,7 +27,7 @@ samples, guidance on mobile development, and a full API reference.
 - [x] 8.收藏
 - [x] 9.我的积分
 - [x] 10.我的收藏
-- [ ] 11.与原生交互
+- [x] 11.与原生交互
 
 
 ## 注意点
