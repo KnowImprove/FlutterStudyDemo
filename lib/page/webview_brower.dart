@@ -42,6 +42,10 @@ class _BrowserState extends State<Browser> {
         key: webViewKey,
         initialUrlRequest: URLRequest(url: Uri.parse(widget.url)),
         initialOptions: options,
+        shouldOverrideUrlLoading: (InAppWebViewController controller,
+            NavigationAction navigationAction) async {
+          return NavigationActionPolicy.CANCEL;
+        },
       ),
     );
   }
